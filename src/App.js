@@ -33,6 +33,10 @@ class App extends React.Component {
     this.getEmployee = this.getEmployee.bind(this);
   }
 
+  componentDidMount() {
+    this.getEmployee();
+  }
+  
   getEmployee() {
       // When the setState during the call to API, loadingspinner true
       this.setState({ loading: true}, () => {
@@ -53,7 +57,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {employee, loading} = this.state; 
+    const {loading} = this.state; 
 
     return (
       <div>
