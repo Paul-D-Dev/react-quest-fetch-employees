@@ -19,7 +19,6 @@ class App extends React.Component {
   
   getEmployee() {
       // When the setState during the call to API, loadingspinner true
-      this.setState({ loading: true}, () => {
       // Send the request
       axios.get('https://randomuser.me/api?nat=fr')
       // Extract the DATA from the received response
@@ -29,20 +28,17 @@ class App extends React.Component {
         console.log(data);
         
         this.setState({
-          loading: false,
           employee: data.results[0],
         });
       });
-    });
   }
 
   render() {
-    const {loading} = this.state; 
-    const initEmployee = this.state.employee ? <DisplayEmployee employee={this.state.employee} /> : <p>No data yet</p>
+    const initEmployee = this.state.employee ? <DisplayEmployee employee={this.state.employee} /> : <LoadingSpinner/>
     
     return (
       <div>
-        {loading ? <LoadingSpinner/> : initEmployee }
+        {initEmployee}
         < button type="button" onClick={this.getEmployee}>Get employee</button>
       </div>
     );
