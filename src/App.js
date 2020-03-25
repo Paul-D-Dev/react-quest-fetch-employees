@@ -1,6 +1,7 @@
 import React from 'react';
 import DisplayEmployee from './components/DisplayEmployee';
 import axios from 'axios';
+import LoadingSpinner from './components/LoadingSpinner';
 
 const sampleEmployee = {
   gender: 'male',
@@ -31,25 +32,30 @@ class App extends React.Component {
   }
 
   getEmployee() {
-    // Send the request
-    axios.get('https://randomuser.me/api?nat=fr')
-    // Extract the DATA from the received response
-        .then(response => response.data)
-        // Use this data to update the state
-        .then(data => {
-          this.setState({
+      // When the setState during the call to API, loadingspinner true
+      this.setState({ loading: true}, () => {
+      // Send the request
+      axios.get('https://randomuser.me/api?nat=fr')
+      // Extract the DATA from the received response
+      .then(response => response.data)
+      // Use this data to update the state
+      .then(data => {
+        this.setState({
+          loading: false,
           employee: data.results[0],
         });
+      });
     });
   }
 
   render() {
+    const {employee, loading} = this.state; 
 
     return (
       <div>
-      <DisplayEmployee employee={sampleEmployee}/>
-      <button type="button" onClick={this.getEmployee}>Get employee</button>
-    </div>
+        {loading ? <LoadingSpinner/> : <DisplayEmployee employee={sampleEmployee}/> }
+        < button type="button" onClick={this.getEmployee}>Get employee</button>
+      </div>
     );
   } 
 }
