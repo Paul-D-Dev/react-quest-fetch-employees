@@ -26,7 +26,9 @@ const sampleEmployee = {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = sampleEmployee;
+    this.state = {
+      employee: sampleEmployee
+    }
 
     this.getEmployee = this.getEmployee.bind(this);
   }
@@ -40,6 +42,8 @@ class App extends React.Component {
       .then(response => response.data)
       // Use this data to update the state
       .then(data => {
+        console.log(data);
+        
         this.setState({
           loading: false,
           employee: data.results[0],
@@ -53,7 +57,7 @@ class App extends React.Component {
 
     return (
       <div>
-        {loading ? <LoadingSpinner/> : <DisplayEmployee employee={sampleEmployee}/> }
+        {loading ? <LoadingSpinner/> : <DisplayEmployee employee={this.state.employee}/> }
         < button type="button" onClick={this.getEmployee}>Get employee</button>
       </div>
     );
